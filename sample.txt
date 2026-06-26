@@ -1,0 +1,1 @@
+LightFM is a hybrid recommendation model that combines collaborative filtering with content-based features. It learns latent embeddings for users and items and can incorporate metadata such as genres and tags.
