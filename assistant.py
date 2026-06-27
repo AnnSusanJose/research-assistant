@@ -49,7 +49,11 @@ while True:
     print("2.EXPLAIN NOTES")
     print("3.GENERATE QUIZ")
     print("4.EXIT")
-    choice=int(input("ENTER YOUR CHOICE: "))
+    try:
+        choice=int(input("ENTER YOUR CHOICE: "))
+    except ValueError:
+        print("Invalid input. Please enter a number.")
+        continue
     if choice==0:
         load_notes()
     elif choice==1:
