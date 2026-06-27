@@ -18,27 +18,39 @@ def summarize_notes(content):
 
     {content}
     """
-    res=chat.send_message(prompt)
-    print("Summary: ",res.text)
-    return res
+    try:
+        res=chat.send_message(prompt)
+        print("------Summary------",res.text)
+        return res
+    except Exception as e:
+        print("Error occurred while summarizing notes:", e)
+        return None
 def explain(content):
     prompt = f"""
     Explain the following notes in simple terms:
     
     {content}
     """
-    res=chat.send_message(prompt)
-    print("Explanation: ",res.text)
-    return res
+    try:
+        res=chat.send_message(prompt)
+        print("------Explanation------",res.text)
+        return res
+    except Exception as e:
+        print("Error occurred while explaining notes:", e)
+        return None
 def generate_quiz(content):
     prompt = f"""
     Generate a quiz based on the following notes. Include 5 multiple-choice questions with 4 options each and provide the correct answer for each question:
 
     {content}
     """
-    res=chat.send_message(prompt)
-    print("Quiz: ",res.text)
-    return res
+    try:
+        res=chat.send_message(prompt)
+        print("------Quiz------",res.text)
+        return res
+    except Exception as e:
+        print("Error occurred while generating quiz:", e)
+        return None
 def save_out(response):
     with open("output.txt", "a") as file:
         file.write(response)
