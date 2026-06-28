@@ -51,6 +51,24 @@ def generate_quiz(content):
     except Exception as e:
         print("Error occurred while generating quiz:", e)
         return None
+def ask_qn(content):
+    qn=input("Enter your question: ")
+    prompt = f"""
+    Using only these notes:
+
+    {content}
+
+    Answer this question:
+
+    {qn}
+    """
+    try:
+        res=chat.send_message(prompt)
+        print("---Answer---",res.text)
+        return res
+    except Exception as e:
+        print("Error occurred while asking question:", e)
+        return None
 def save_out(response):
     with open("output.txt", "a") as file:
         file.write(response)
@@ -61,7 +79,8 @@ while True:
     print("2.SUMMARIZE NOTES")
     print("3.EXPLAIN NOTES")
     print("4.GENERATE QUIZ")
-    print("5.EXIT")
+    print("5.Ask a question")
+    print("6.EXIT")
     try:
         choice=int(input("ENTER YOUR CHOICE: "))
     except ValueError:
@@ -86,6 +105,9 @@ while True:
         result=generate_quiz(notes)
         save_out(result.text)
     elif choice==5:
+        result=ask_qn(notes)
+        save_out(result.text)
+    elif choice==6:
         print("exiting")
         break
     else:
