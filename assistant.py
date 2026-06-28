@@ -8,10 +8,10 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 model = genai.GenerativeModel("gemini-2.5-flash")
 chat = model.start_chat(history=[])
 print("chatbot loading.. performes on sample.txt")
-with open("sample.txt", "r") as file:
+def load_notes(fname):
+    with open(fname, "r") as file:
         content = file.read()
-def load_notes():
-    print(content)
+        return content
 def summarize_notes(content):
     prompt = f"""
     Summarize the following notes in 5 bullet points:
@@ -20,7 +20,7 @@ def summarize_notes(content):
     """
     try:
         res=chat.send_message(prompt)
-        print("------Summary------",res.text)
+        print("---Summary---",res.text)
         return res
     except Exception as e:
         print("Error occurred while summarizing notes:", e)
@@ -57,27 +57,35 @@ def save_out(response):
 while True:
     print("---MENU---")
     print("0.LOAD NOTES")
-    print("1.SUMMARIZE NOTES")
-    print("2.EXPLAIN NOTES")
-    print("3.GENERATE QUIZ")
-    print("4.EXIT")
+    print("1.DISPLAY NOTES")
+    print("2.SUMMARIZE NOTES")
+    print("3.EXPLAIN NOTES")
+    print("4.GENERATE QUIZ")
+    print("5.EXIT")
     try:
         choice=int(input("ENTER YOUR CHOICE: "))
     except ValueError:
         print("Invalid input. Please enter a number.")
         continue
     if choice==0:
-        load_notes()
+        fname=input("Enter the filename: ")
+        try:
+            notes=load_notes(fname)
+        except FileNotFoundError:
+            print("File not found.")
     elif choice==1:
-         result=summarize_notes(content)
-         save_out(result.text)
+        print("---Notes---")
+        print(notes)
     elif choice==2:
-        result=explain(content)
-        save_out(result.text)
+         result=summarize_notes(notes)
+         save_out(result.text)
     elif choice==3:
-        result=generate_quiz(content)
+        result=explain(notes)
         save_out(result.text)
     elif choice==4:
+        result=generate_quiz(notes)
+        save_out(result.text)
+    elif choice==5:
         print("exiting")
         break
     else:
