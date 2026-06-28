@@ -33,7 +33,7 @@ def explain(content):
     """
     try:
         res=chat.send_message(prompt)
-        print("------Explanation------",res.text)
+        print("---Explanation---",res.text)
         return res
     except Exception as e:
         print("Error occurred while explaining notes:", e)
@@ -46,7 +46,7 @@ def generate_quiz(content):
     """
     try:
         res=chat.send_message(prompt)
-        print("------Quiz------",res.text)
+        print("---Quiz---",res.text)
         return res
     except Exception as e:
         print("Error occurred while generating quiz:", e)
@@ -69,6 +69,32 @@ def ask_qn(content):
     except Exception as e:
         print("Error occurred while asking question:", e)
         return None
+def gen_fcards(content):
+    prompt = f"""
+    Generate flashcards based on the following notes. Each flashcard should have a question on one side and the answer on the other side. Provide 5 flashcards:
+
+    {content}
+    """
+    try:
+        res=chat.send_message(prompt)
+        print("---Flashcards---",res.text)
+        return res
+    except Exception as e:
+        print("Error occurred while generating flashcards:", e)
+        return None
+def gen_mindmap(content):
+    prompt = f"""
+    Generate a mind map based on the following notes. Provide a visual representation of the relationships between different concepts:
+
+    {content}
+    """
+    try:
+        res=chat.send_message(prompt)
+        print("---Mind Map---",res.text)
+        return res
+    except Exception as e:
+        print("Error occurred while generating mind map:", e)
+        return None
 def save_out(response):
     with open("output.txt", "a") as file:
         file.write(response)
@@ -80,7 +106,9 @@ while True:
     print("3.EXPLAIN NOTES")
     print("4.GENERATE QUIZ")
     print("5.Ask a question")
-    print("6.EXIT")
+    print("6.GENERATE FLASHCARDS")
+    print("7.GENERATE MINDMAP")
+    print("8.EXIT")
     try:
         choice=int(input("ENTER YOUR CHOICE: "))
     except ValueError:
@@ -108,6 +136,12 @@ while True:
         result=ask_qn(notes)
         save_out(result.text)
     elif choice==6:
+        result=gen_fcards(notes)
+        save_out(result.text)
+    elif choice==7:
+        result=gen_mindmap(notes)
+        save_out(result.text)
+    elif choice==8:
         print("exiting")
         break
     else:
