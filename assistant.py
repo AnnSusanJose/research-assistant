@@ -1,6 +1,8 @@
 from dotenv import load_dotenv
 import os
 import google.generativeai as genai
+from pypdf import PdfReader
+
 
 load_dotenv()
 
@@ -8,10 +10,21 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 model = genai.GenerativeModel("gemini-2.5-flash")
 chat = model.start_chat(history=[])
 print("chatbot loading.. performes on sample.txt")
-def load_notes(fname):
-    with open(fname, "r") as file:
-        content = file.read()
-        return content
+def load_doc(fname):
+    if fname.lower().endswith(".txt"):
+        with open(fname, "r") as file:
+            content = file.read()
+            return content
+    elif fname.lower().endswith(".pdf"):
+        reader = PdfReader(fname)
+        notes = ""
+        for page in reader.pages:
+            text = page.extract_text()
+            if text:
+                notes += text + "\n"
+        return notes
+    else:
+        raise ValueError("Unsupported file format. Please provide a .txt or .pdf file.")
 def summarize_notes(content):
     prompt = f"""
     Summarize the following notes in 5 bullet points:
@@ -96,11 +109,11 @@ def gen_mindmap(content):
         print("Error occurred while generating mind map:", e)
         return None
 def save_out(response):
-    with open("output.txt", "a") as file:
+    with open("output.txt", "w", encoding="utf-8") as file:
         file.write(response)
 while True:
     print("---MENU---")
-    print("0.LOAD NOTES")
+    print("0.LOAD DOCUMENT")
     print("1.DISPLAY NOTES")
     print("2.SUMMARIZE NOTES")
     print("3.EXPLAIN NOTES")
@@ -117,7 +130,7 @@ while True:
     if choice==0:
         fname=input("Enter the filename: ")
         try:
-            notes=load_notes(fname)
+            notes=load_doc(fname)
         except FileNotFoundError:
             print("File not found.")
     elif choice==1:
