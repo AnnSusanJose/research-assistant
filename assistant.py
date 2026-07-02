@@ -109,6 +109,27 @@ def gen_mindmap(content):
     except Exception as e:
         print("Error occurred while generating mind map:", e)
         return None
+def analyse_paper(content):
+    prompt = f"""
+    Analyze this research paper and provide:
+
+1. Title
+2. Problem Statement
+3. Methodology
+4. Dataset Used
+5. Evaluation Metrics
+6. Results
+7. Limitations
+8. Future Work
+    {content}
+    """
+    try:
+        res=chat.send_message(prompt)
+        print("---Paper Analysis---",res.text)
+        return res
+    except Exception as e:
+        print("Error occurred while analysing paper:", e)
+        return None
 def save_out(oname,response):
     with open(oname, "a", encoding="utf-8") as file:
         file.write(response)
@@ -122,7 +143,8 @@ while True:
     print("5.Ask a question")
     print("6.GENERATE FLASHCARDS")
     print("7.GENERATE MINDMAP")
-    print("8.EXIT")
+    print("8.ANALYSE PAPER")
+    print("9.EXIT")
     try:
         choice=int(input("ENTER YOUR CHOICE: "))
     except ValueError:
@@ -158,6 +180,9 @@ while True:
         result=gen_mindmap(notes)
         save_out(r"C:\Users\admin\OneDrive\Desktop\projects\research-assistant\output\mindmap.txt", result.text)
     elif choice==8:
+        result=analyse_paper(notes)
+        save_out(r"C:\Users\admin\OneDrive\Desktop\projects\research-assistant\output\paper_analysis.txt", result.text)
+    elif choice==9:
         print("exiting")
         break
     else:
