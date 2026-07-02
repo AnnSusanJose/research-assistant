@@ -1,0 +1,35 @@
+```mermaid
+mindmap
+  root((Portfolio))
+    Type: Academic Document
+    Status: Certified (by Asst. Prof. Safvana Sajeev, 06/04/2026)
+    
+    Course Details
+      Name: Engineering Ethics and Sustainable Development
+      Code: UCHUT347
+      Academic Year: 2025-26
+      Semester: Fourth Semester (S4)
+      Class: CSE B2
+    
+    Student
+      Name: ANN SUSAN JOSE
+      KTU ID: TVE24CS036
+      Roll No: 15
+      Is Member Of --> Group 03
+    
+    Institution
+      University: APJ Abdul Kalam Technological University
+      College: College of Engineering Trivandrum (CET)
+      Location: Thiruvananthapuram-695016
+      Department: Computer Science and Engineering
+    
+    Group 03
+      Name: THE RIGHT CLICKS
+      Members
+        ANAND ANIL (TVE24CS030, Roll 13)
+        ANAND KRISHNA N (TVE24CS031, Roll 14)
+        ANN SUSAN JOSE (TVE24CS036, Roll 15)
+        ANOOJ M A (TVE24CS037, Roll 16)
+        ANSIL K (TVE24CS038, Roll 17)
+        ARAVINDH M R (TVE24CS041, Roll 18)
+```

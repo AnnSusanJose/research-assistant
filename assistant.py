@@ -9,6 +9,7 @@ load_dotenv()
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 model = genai.GenerativeModel("gemini-2.5-flash")
 chat = model.start_chat(history=[])
+notes=""
 print("chatbot loading.. performes on sample.txt")
 def load_doc(fname):
     if fname.lower().endswith(".txt"):
@@ -108,8 +109,8 @@ def gen_mindmap(content):
     except Exception as e:
         print("Error occurred while generating mind map:", e)
         return None
-def save_out(response):
-    with open("output.txt", "w", encoding="utf-8") as file:
+def save_out(oname,response):
+    with open(oname, "a", encoding="utf-8") as file:
         file.write(response)
 while True:
     print("---MENU---")
@@ -133,27 +134,29 @@ while True:
             notes=load_doc(fname)
         except FileNotFoundError:
             print("File not found.")
+        except ValueError as e:
+            print(e)
     elif choice==1:
         print("---Notes---")
         print(notes)
     elif choice==2:
          result=summarize_notes(notes)
-         save_out(result.text)
+         save_out(r"C:\Users\admin\OneDrive\Desktop\projects\research-assistant\output\summary.txt", result.text)
     elif choice==3:
         result=explain(notes)
-        save_out(result.text)
+        save_out(r"C:\Users\admin\OneDrive\Desktop\projects\research-assistant\output\explain.txt", result.text)
     elif choice==4:
         result=generate_quiz(notes)
-        save_out(result.text)
+        save_out(r"C:\Users\admin\OneDrive\Desktop\projects\research-assistant\output\quiz.txt", result.text)
     elif choice==5:
         result=ask_qn(notes)
-        save_out(result.text)
+        save_out(r"C:\Users\admin\OneDrive\Desktop\projects\research-assistant\output\question.txt", result.text)
     elif choice==6:
         result=gen_fcards(notes)
-        save_out(result.text)
+        save_out(r"C:\Users\admin\OneDrive\Desktop\projects\research-assistant\output\flashcards.txt", result.text)
     elif choice==7:
         result=gen_mindmap(notes)
-        save_out(result.text)
+        save_out(r"C:\Users\admin\OneDrive\Desktop\projects\research-assistant\output\mindmap.txt", result.text)
     elif choice==8:
         print("exiting")
         break
